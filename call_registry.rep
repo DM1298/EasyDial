@@ -1,4 +1,4 @@
 
 vector<phone> reg;
 
-vector<phone> backup;
+//vector<phone> backup;

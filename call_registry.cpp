@@ -8,10 +8,11 @@ call_registry::call_registry() throw(error){
 call_registry::call_registry(const call_registry& R) throw(error){
   for(unsigned int i=0 ; i < R.reg.size() ; i++ ){
     reg.push_back(R.reg[i]);
-  }
+  }/*
   for(unsigned int i=0 ; i < R.backup.size() ; i++ ){
     backup.push_back(R.backup[i]);
   }
+  */
 }
 
 call_registry& call_registry::operator=(const call_registry& R) throw(error){
@@ -33,9 +34,15 @@ void call_registry::registra_trucada(nat num) throw(error){
   }
   if(!trobat){
     phone aux(num,"",1);
+    phone aux2(0,"",0);
     for(int i=0 ; i<reg.size() ; i++){
-      if( reg[i].numero() > num ){
+      if(reg[i].numero() > num and !trobat){
         trobat = true;
+      }
+      if(trobat){
+        aux2 = reg[i];
+        reg[i] = aux;
+        aux = aux2;
       }
     }
     reg.push_back(aux);
@@ -52,7 +59,18 @@ void call_registry::assigna_nom(nat num, const string& name) throw(error){
     }
   }
   if(!trobat){
-    phone aux(num,name,1);
+    phone aux(num,"",1);
+    phone aux2(0,"",0);
+    for(int i=0 ; i<reg.size() ; i++){
+      if(reg[i].numero() > num and !trobat){
+        trobat = true;
+      }
+      if(trobat){
+        aux2 = reg[i];
+        reg[i] = aux;
+        aux = aux2;
+      }
+    }
     reg.push_back(aux);
   }
 }
@@ -124,7 +142,21 @@ nat call_registry::num_entrades() const throw(){
 }
 
 void call_registry::dump(vector<phone>& V) const throw(error){
-  for(int i=0 ; i<V.size() ; i++){
-    if();
+  bool final = false;
+  int i,j;
+  vector<phone> aux(V);
+  V.clear();
+  i = j = 0;
+  while (!final) {
+    if(reg[i] < aux[j]){
+      V.push_back(reg[i]);
+      i++;
+    }else if(reg[i] > aux[j]){
+      V.push_back(aux[j]);
+      j++;
+    }
+    if(reg[i] == V.back()) i++;
+    if(aux[j] == V.back()) j++;
+    if(i == reg.size() and j == aux.size()) final = true;
   }
 }
