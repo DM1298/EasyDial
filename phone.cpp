@@ -8,13 +8,13 @@ phone::phone(nat num, const string& name, nat compt) throw(error){
     for(int i=0; i < name.size(); i++){
       if(name[i] == DELETECHAR or name[i] == ENDCHAR or name[i] == ENDPREF){
         i = name.size();
-        throw "caracter ilegal";
+        throw ErrNomIncorrecte;
       }
     }
     cont = compt;
     tlf = num;
     nombre = name;
-  } catch(string error){
+  } catch(int error){
     std::cout << "ERROR: " << error << endl << "No s'ha creat el phone" << endl;
   }
 }
