@@ -5,7 +5,7 @@
 Es produeix un error si name no és un identificador legal. */
 phone::phone(nat num, const string& name, nat compt) throw(error){
   try{
-    for(int i=0; i < name.size(); i++){
+    for(unsigned int i=0; i < name.size(); i++){
       if(name[i] == DELETECHAR or name[i] == ENDCHAR or name[i] == ENDPREF){
         i = name.size();
         throw ErrNomIncorrecte;
@@ -31,7 +31,7 @@ phone& phone::operator=(const phone& T) throw(error){
 }
 
 phone::~phone() throw(){
-
+  
 }
 
 nat phone::numero() const throw(){
@@ -73,7 +73,7 @@ bool phone::operator<(const phone& T) const throw(){
 
 bool phone::operator>(const phone& T) const throw(){
   bool ret;
-  int max;
+  unsigned int max;
   if(cont > T.frequencia()) ret = true;
   else if(cont < T.frequencia()) ret = false;
   else{
@@ -84,7 +84,7 @@ bool phone::operator>(const phone& T) const throw(){
       max = nombre.size();
       ret = false;
     }
-    for(int i=0 ; i < max ; i++){
+    for(unsigned int i=0 ; i < max ; i++){
       if(nombre[i] > T.nom()[i]){
         i = max;
         ret = true;

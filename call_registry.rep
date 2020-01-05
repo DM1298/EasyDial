@@ -1,0 +1,4 @@
+
+vector<phone> reg;
+
+vector<phone> backup;
