@@ -73,10 +73,26 @@ bool phone::operator<(const phone& T) const throw(){
 
 bool phone::operator>(const phone& T) const throw(){
   bool ret;
+  int max;
   if(cont > T.frequencia()) ret = true;
   else if(cont < T.frequencia()) ret = false;
   else{
-    //TODO: Falta realizar la comparación sobre los nombre en caso de que sean  frquencias iguales.
+    if(nombre.size() > T.nom().size()){
+      max = T.nom().size();
+      ret = true;
+    }else{
+      max = nombre.size();
+      ret = false;
+    }
+    for(int i=0 ; i < max ; i++){
+      if(nombre[i] > T.nom()[i]){
+        i = max;
+        ret = true;
+      }else if(nombre[i] < T.nom()[i]){
+        i = max;
+        ret = false;
+      }
+    }
   }
   return ret;
 }
