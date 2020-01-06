@@ -1,0 +1,23 @@
+struct node{
+  nat num;
+  char info;
+  node *fe, *fc, *fd;
+};
+node *arrel;
+
+
+
+
+//Funcio utilitzada per generar un tst
+node* insereix_paraula(node *n, nat i, string s, nat num){
+  if(n==NULL){
+    n = new node;
+    n->fd = n->fe = n->fc = NULL;
+    n->info = s[i];
+    if(i<s.size()-1){
+      n->fc = insereix_paraula(n->fc,i+1,s,num);
+    }else{
+      n->num = num;
+    }
+  }
+}
