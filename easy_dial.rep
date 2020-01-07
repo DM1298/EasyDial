@@ -58,6 +58,23 @@ void esborra_node(node *n) const{
   delete n;
 }
 
+node* retorna_node(node *n, string s, nat i){
+  node *aux;
+  if(i<s.size()){
+    if(n->fd->info == s[i]){
+      aux = retorna_node(n->fd,s,i+1);
+    }
+    else if(n->fd->info == s[i]){
+      aux = retorna_node(n->fd,s,i+1);
+    }
+    else if(n->fd->info == s[i]){
+      aux = retorna_node(n->fd,s,i+1);
+    }else return NULL;
+  }
+  aux = n;
+  return aux;
+}
+
 vector<string> retorna_noms(node *n, vector<string> noms, string nm) const{
   string aux = nm;
   nm.push_back(n->info);

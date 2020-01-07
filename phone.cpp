@@ -28,7 +28,10 @@ phone::phone(const phone& T) throw(error){
 }
 
 phone& phone::operator=(const phone& T) throw(error){
-  phone aux(T);
+  phone aux;
+  aux.tlf = T.numero();
+  aux.nombre = T.nom();
+  aux.cont = T.frequencia();
   return aux;
 }
 
