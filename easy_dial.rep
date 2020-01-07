@@ -1,30 +1,35 @@
 struct node{
   nat num;
+  nat freq;
   char info;
   node *fe, *fc, *fd;
 };
 node *arrel;
+
+
 string pre;
-double mitjana;
+double total_puls;
 
 
 
 //Funcio utilitzada per generar un tst
-node* insereix_paraula(node *n, nat i, string s, nat num){
+node* insereix_paraula(node *n, nat i, string s, nat num, nat freq) const{
   if(n==NULL){
     n = new node;
     n->fd = n->fe = n->fc = NULL;
     n->info = s[i];
     if(i<s.size()-1){
-      n->fc = insereix_paraula(n->fc,i+1,s,num);
+      n->fc = insereix_paraula(n->fc,i+1,s,num,freq);
+      n->num = 0;
     }else{
       n->num = num;
+      n->freq = freq;
     }
   }
 }
 
 //Funcio utilitzada per clonar un arbre
-node* copia_node(node *n){
+node* copia_node(node *n) const{
   node *aux = new node;
   aux->info = n->info;
   aux->num = n->num;
@@ -39,8 +44,8 @@ node* copia_node(node *n){
   }
 }
 
-
-void esborra_node(node *n){
+//Funcio utilitzada per esborrar un arbre
+void esborra_node(node *n) const{
   if(n->fe != NULL){
      esborra_node(n->fe);
   }
@@ -51,4 +56,22 @@ void esborra_node(node *n){
      esborra_node(n->fd);
   }
   delete n;
+}
+
+vector<string> retorna_noms(node *n, vector<string> noms, string nm) const{
+  string aux = nm;
+  nm.push_back(n->info);
+  if(n->fc != NULL){
+    noms = retorna_noms(n->fc, noms, nm);
+  }
+  if(n->fe != NULL){
+    noms = retorna_noms(n->fe, noms, aux);
+  }
+  if(n->fd != NULL){
+    noms = retorna_noms(n->fd, noms, aux);
+  }
+  if(n->num == 0){
+    noms.push_back(nm);
+  }
+  return noms;
 }
