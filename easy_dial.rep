@@ -4,7 +4,8 @@ struct node{
   node *fe, *fc, *fd;
 };
 node *arrel;
-
+string pre;
+double mitjana;
 
 
 
@@ -20,4 +21,34 @@ node* insereix_paraula(node *n, nat i, string s, nat num){
       n->num = num;
     }
   }
+}
+
+//Funcio utilitzada per clonar un arbre
+node* copia_node(node *n){
+  node *aux = new node;
+  aux->info = n->info;
+  aux->num = n->num;
+  if(n->fe != NULL){
+     aux->fe = copia_node(n->fe);
+  }
+  if(n->fc != NULL){
+     aux->fc = copia_node(n->fc);
+  }
+  if(n->fd != NULL){
+     aux->fd = copia_node(n->fd);
+  }
+}
+
+
+void esborra_node(node *n){
+  if(n->fe != NULL){
+     esborra_node(n->fe);
+  }
+  if(n->fc != NULL){
+     esborra_node(n->fc);
+  }
+  if(n->fd != NULL){
+     esborra_node(n->fd);
+  }
+  delete n;
 }
