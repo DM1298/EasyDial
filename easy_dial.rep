@@ -5,7 +5,7 @@ struct node{
   node *fe, *fc, *fd;
 };
 node *arrel;
-
+node *current;
 
 string pre;
 double total_puls;

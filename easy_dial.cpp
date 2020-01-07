@@ -4,6 +4,7 @@ easy_dial::easy_dial(const call_registry& R) throw(error){
   vector<phone> aux;
   R.dump(aux);
   arrel = new node;
+  current = new node;
   nat freq, puls;
   freq = puls = 0;
   for(int i=0 ; i<aux.size() ; i++){
@@ -30,11 +31,19 @@ easy_dial::~easy_dial() throw(){
 string easy_dial::inici() throw(){
   pre.clear();
   pre = arrel->info;
+  current = arrel;
   return pre;
 }
 
 string easy_dial::seguent(char c) throw(error){
-  pre.push_back(c);
+  if(pre.empty()) throw ErrPrefixIndef;
+  if (current->fe->info == c or current->fc->info == c or current->fd->info == c) {
+    pre.push_back(c);
+    if(current->fe->info == c) current = current->fe;
+    if(current->fc->info == c) current = current->fc;
+    if(current->fd->info == c) current = current->fd;
+
+  }
   return pre;
 }
 

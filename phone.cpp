@@ -3,6 +3,8 @@
 /* Construeix un telèfon a partir del seu número (num), el seu nom
 (name) i el seu comptador de trucades (compt).
 Es produeix un error si name no és un identificador legal. */
+
+
 phone::phone(nat num, const string& name, nat compt) throw(error){
   try{
     for(unsigned int i=0; i < name.size(); i++){
@@ -31,7 +33,7 @@ phone& phone::operator=(const phone& T) throw(error){
 }
 
 phone::~phone() throw(){
-  
+
 }
 
 nat phone::numero() const throw(){

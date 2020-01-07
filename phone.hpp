@@ -14,7 +14,7 @@ public:
   /* Construeix un telèfon a partir del seu número (num), el seu nom
   (name) i el seu comptador de trucades (compt).
   Es produeix un error si name no és un identificador legal. */
-  phone(nat num, const string& name, nat compt) throw(error);
+  phone(nat num=0, const string& name="", nat compt=0) throw(error);
 
   /* Tres grans. Constructor per còpia, operador d'assignació i destructor. */
   phone(const phone& T) throw(error);
