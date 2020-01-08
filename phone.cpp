@@ -6,18 +6,18 @@ Es produeix un error si name no és un identificador legal. */
 
 
 phone::phone(nat num, const string& name, nat compt) throw(error){
-  try{
-    for(unsigned int i=0; i < name.size(); i++){
-      if(name[i] == DELETECHAR or name[i] == ENDCHAR or name[i] == ENDPREF){
-        i = name.size();
-        throw ErrNomIncorrecte;
-      }
+  bool test = false;
+  for(nat i=0; i < name.size(); i++){
+    if(name[i] == DELETECHAR or name[i] == ENDCHAR or name[i] == ENDPREF){
+      i = name.size();
+      test = true;
     }
+  }
+  if(test) throw ErrNomIncorrecte;
+  else{
     cont = compt;
     tlf = num;
     nombre = name;
-  } catch(int error){
-    std::cout << "ERROR: " << error << endl << "No s'ha creat el phone" << endl;
   }
 }
 
@@ -28,11 +28,7 @@ phone::phone(const phone& T) throw(error){
 }
 
 phone& phone::operator=(const phone& T) throw(error){
-  phone aux;
-  aux.tlf = T.numero();
-  aux.nombre = T.nom();
-  aux.cont = T.frequencia();
-  return aux;
+  return *this;
 }
 
 phone::~phone() throw(){
