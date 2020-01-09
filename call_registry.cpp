@@ -1,7 +1,7 @@
 #include "call_registry.hpp"
 
 call_registry::call_registry() throw(error){
-
+  reg.clear();
 }
 
 /* Constructor per còpia, operador d'assignació i destructor. */
@@ -16,35 +16,40 @@ call_registry::call_registry(const call_registry& R) throw(error){
 }
 
 call_registry& call_registry::operator=(const call_registry& R) throw(error){
-  call_registry aux(R);
-  return aux;
+  //call_registry aux(R);
+  return *this;
 }
 call_registry::~call_registry() throw(){
 
 }
 
 void call_registry::registra_trucada(nat num) throw(error){
-  bool trobat = false;
-  for(int i=0 ; i < reg.size() ; i++){
-    if( reg[i].numero() == num ){
-      reg[i]++;
-      trobat == true;
-      i = reg.size();
+  if(!reg.empty()){
+    bool trobat = false;
+    for(int i=0 ; i < reg.size() ; i++){
+      if( reg[i].numero() == num ){
+        reg[i]++;
+        trobat == true;
+        i = reg.size();
+      }
     }
-  }
-  if(!trobat){
+    if(!trobat){
+      phone aux(num,"",1);
+      phone aux2(0,"",0);
+      for(int i=0 ; i<reg.size() ; i++){
+        if((reg[i].numero() > num) and !trobat){
+          trobat = true;
+        }
+        if(trobat){
+          aux2 = reg[i];
+          reg[i] = aux;
+          aux = aux2;
+        }
+      }
+      reg.push_back(aux);
+    }
+  }else{
     phone aux(num,"",1);
-    phone aux2(0,"",0);
-    for(int i=0 ; i<reg.size() ; i++){
-      if(reg[i].numero() > num and !trobat){
-        trobat = true;
-      }
-      if(trobat){
-        aux2 = reg[i];
-        reg[i] = aux;
-        aux = aux2;
-      }
-    }
     reg.push_back(aux);
   }
 }
@@ -85,7 +90,8 @@ void call_registry::elimina(nat num) throw(error){
       reg[i] = reg[i+1];
     }
   }
-  reg.erase(reg.begin()+reg.size()-1);
+  if(trobat)reg.erase(reg.begin()+reg.size()-1);
+  else throw error(ErrNumeroInexistent);
 }
 
 /* Retorna cert si i només si el call_registry conté un
@@ -122,12 +128,15 @@ aquest número. Es produeix un error si el número no està en el
 call_registry. */
 nat call_registry::num_trucades(nat num) const throw(error){
   nat ret;
+  bool trobat=false;
   for(int i=0 ; i < reg.size() ; i++){
     if( reg[i].numero() == num ){
       ret = reg[i].frequencia();
       i = reg.size();
+      trobat=true;
     }
   }
+  if(!trobat) throw error(ErrNumeroInexistent);
   return ret;
 }
 
@@ -142,21 +151,31 @@ nat call_registry::num_entrades() const throw(){
 }
 
 void call_registry::dump(vector<phone>& V) const throw(error){
-  bool final = false;
-  int i,j;
-  vector<phone> aux(V);
-  V.clear();
-  i = j = 0;
-  while (!final) {
-    if(reg[i] < aux[j]){
-      V.push_back(reg[i]);
-      i++;
-    }else if(reg[i] > aux[j]){
-      V.push_back(aux[j]);
-      j++;
+  if(!reg.empty()){
+    bool final = false;
+    int i,j;
+    i = j = 0;
+    vector<phone> aux(V);
+    V.clear();
+    if(V.empty() and (reg.size()==1) ) V.push_back(reg[0]);
+    else{
+      while (!final) {
+        if(reg[i] < aux[j]){
+          V.push_back(reg[i]);
+          i++;
+        }else{
+          V.push_back(aux[j]);
+          j++;
+        }
+        if(reg[i] == V.back() or aux[j] == V.back()) throw error(ErrNomRepetit);
+        if(aux.size() == 0){
+          if(i == (reg.size()-1) and j == (aux.size())) final = true;
+        }
+        if(reg.size() == 0){
+          if(i == (reg.size()) and j == (aux.size()-1)) final = true;
+        }
+        if(i == (reg.size()-1) and j == (aux.size()-1)) final = true;
+      }
     }
-    if(reg[i] == V.back()) i++;
-    if(aux[j] == V.back()) j++;
-    if(i == reg.size() and j == aux.size()) final = true;
   }
 }

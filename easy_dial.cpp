@@ -1,7 +1,7 @@
 #include "easy_dial.hpp"
 
 easy_dial::easy_dial(const call_registry& R) throw(error){
-  if(R.es_buit()) throw 99;
+  if(R.es_buit()) throw error(99);
   vector<phone> aux;
   R.dump(aux);
   arrel = new node;
@@ -18,12 +18,12 @@ easy_dial::easy_dial(const call_registry& R) throw(error){
 
 easy_dial::easy_dial(const easy_dial& D) throw(error){
     if(D.arrel != NULL) arrel = copia_node(D.arrel);
-    else throw 98;
+    else throw error(98);
 
 }
 
 easy_dial& easy_dial::operator=(const easy_dial& D) throw(error){
-  if(D.arrel == NULL) throw 97;
+  if(D.arrel == NULL) throw error(97);
   easy_dial aux(D);
   return aux;
 }
@@ -40,7 +40,7 @@ string easy_dial::inici() throw(){
 }
 
 string easy_dial::seguent(char c) throw(error){
-  if(pre.empty()) throw ErrPrefixIndef;
+  if(pre.empty()) throw error(ErrPrefixIndef);
   if (current->fe->info == c or current->fc->info == c or current->fd->info == c) {
     pre.push_back(c);
     if(current->fe->info == c) current = current->fe;
@@ -55,7 +55,7 @@ string easy_dial::anterior() throw(error){
   if(!pre.empty()){
     current = retorna_node(arrel,pre,0);
     pre.erase(pre[pre.size()-1]);
-  }else throw ErrNoHiHaAnterior;
+  }else throw error(ErrNoHiHaAnterior);
   return pre;
 }
 
@@ -66,7 +66,7 @@ nat easy_dial::num_telf() const throw(error){
     if(pre[i] == aux->fc->info) aux = aux->fc;
     if(pre[i] == aux->fd->info) aux = aux->fd;
   }
-  if(aux->num == 0) throw ErrNoExisteixTelefon;
+  if(aux->num == 0) throw error(ErrNoExisteixTelefon);
   return aux->num;
 }
 

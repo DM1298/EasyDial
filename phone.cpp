@@ -13,7 +13,7 @@ phone::phone(nat num, const string& name, nat compt) throw(error){
       test = true;
     }
   }
-  if(test) throw ErrNomIncorrecte;
+  if(test) throw error(ErrNomIncorrecte);
   else{
     cont = compt;
     tlf = num;
