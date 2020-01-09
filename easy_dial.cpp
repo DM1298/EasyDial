@@ -24,8 +24,7 @@ easy_dial::easy_dial(const easy_dial& D) throw(error){
 
 easy_dial& easy_dial::operator=(const easy_dial& D) throw(error){
   if(D.arrel == NULL) throw error(97);
-  easy_dial aux(D);
-  return aux;
+  return *this;
 }
 
 easy_dial::~easy_dial() throw(){

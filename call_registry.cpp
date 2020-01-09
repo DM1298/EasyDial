@@ -152,6 +152,21 @@ nat call_registry::num_entrades() const throw(){
 
 void call_registry::dump(vector<phone>& V) const throw(error){
   if(!reg.empty()){
+    /*
+    for(int i=0 ; i<reg.size() ; i++){
+      for(int j=0 ; j<V.size() ; j++){
+        //if(reg[i] == V[j]) throw error(ErrNomRepetit);
+      }
+    }*/
+    for(int i=0 ; i<reg.size() ; i++){
+      V.push_back(reg[i]);
+    }
+  }
+}
+
+/* OLD DUMP
+void call_registry::dump(vector<phone>& V) const throw(error){
+  if(!reg.empty()){
     bool final = false;
     int i,j;
     i = j = 0;
@@ -179,3 +194,4 @@ void call_registry::dump(vector<phone>& V) const throw(error){
     }
   }
 }
+*/
